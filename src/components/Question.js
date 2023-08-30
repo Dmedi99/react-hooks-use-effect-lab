@@ -1,15 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 function Question({ question, onAnswered }) {
   const [timeRemaining, setTimeRemaining] = useState(10);
 
-  // add useEffect code
+  //useEffect function here 
+useEffect(()=>{
+  //using if else statement says "if time remaining is greater than 10 decrease the value of
+  //timeReaning by 1 every second by using setTimeRemaing"
+if (timeRemaining > 0){
+  const timer = setTimeout(()=>{
+    setTimeRemaining(timeRemaining - 1)
+  }, 1000)
+  
+  return () => clearTimeout(timer)
+} else{
+  //When timeRemaining hit 0 
+  setTimeRemaining(0)
+  onAnswered(false)
+}
+}, [timeRemaining, onAnswered])
 
   function handleAnswer(isCorrect) {
     setTimeRemaining(10);
     onAnswered(isCorrect);
   }
-
+  
   const { id, prompt, answers, correctIndex } = question;
 
   return (
